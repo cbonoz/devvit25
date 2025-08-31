@@ -7,10 +7,14 @@ export const fetchPosts = async (sub: string): Promise<Post[]> => {
 };
 // Utility functions for quiz calculations
 
+// diff is log10(actual) - log10(guess)
+// 1% error: log10(1.01) ≈ 0.0044
+// 10% error: log10(1.1) ≈ 0.0414
 export function getFeedback(diff: number) {
-  if (diff < 0.1) return { text: 'Perfect!', emoji: '🎯' };
-  if (diff < 0.25) return { text: 'So close!', emoji: '🔥' };
-  if (diff < 0.5) return { text: 'Not bad!', emoji: '👍' };
+  if (diff < 0.0044) return { text: 'Perfect!', emoji: '🎯' };
+  if (diff < 0.0414) return { text: 'Awesome!', emoji: '🌟' };
+  if (diff < 0.1) return { text: 'So close!', emoji: '🔥' };
+  if (diff < 0.25) return { text: 'Not bad!', emoji: '👍' };
   if (diff < 1.0) return { text: 'Pretty far', emoji: '🤔' };
   return { text: 'Way off!', emoji: '😅' };
 }
