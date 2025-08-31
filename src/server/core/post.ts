@@ -36,7 +36,3 @@ export const getPosts = async (subreddit: string) => {
     };
   });
 };
-    upvotes: p.score,
-    image: p.thumbnail && p.thumbnail.startsWith('http') ? p.thumbnail : undefined,
-  }));
-};

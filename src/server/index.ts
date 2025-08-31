@@ -1,7 +1,7 @@
 import express from 'express';
 import { InitResponse, IncrementResponse, DecrementResponse } from '../shared/types/api';
 import { redis, reddit, createServer, context, getServerPort } from '@devvit/web/server';
-import { createPost } from './core/post';
+
 
 const app = express();
 
@@ -93,11 +93,11 @@ router.post<{ postId: string }, DecrementResponse | { status: string; message: s
 
 router.post('/internal/on-app-install', async (_req, res): Promise<void> => {
   try {
-    const post = await createPost();
+  // const post = await createPost();
 
     res.json({
       status: 'success',
-      message: `Post created in subreddit ${context.subredditName} with id ${post.id}`,
+  // message: `Post created in subreddit ${context.subredditName} with id ${post.id}`,
     });
   } catch (error) {
     console.error(`Error creating post: ${error}`);
@@ -110,10 +110,10 @@ router.post('/internal/on-app-install', async (_req, res): Promise<void> => {
 
 router.post('/internal/menu/post-create', async (_req, res): Promise<void> => {
   try {
-    const post = await createPost();
+  // const post = await createPost();
 
     res.json({
-      navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
+  // navigateTo: `https://reddit.com/r/${context.subredditName}/comments/${post.id}`,
     });
   } catch (error) {
     console.error(`Error creating post: ${error}`);
@@ -121,6 +121,22 @@ router.post('/internal/menu/post-create', async (_req, res): Promise<void> => {
       status: 'error',
       message: 'Failed to create post',
     });
+  }
+});
+
+// Add GET /api/getPosts endpoint
+router.get('/api/getPosts', async (req, res) => {
+  const subreddit = req.query.subreddit;
+  if (typeof subreddit !== 'string' || !subreddit) {
+    res.status(400).json({ error: 'Missing subreddit' });
+    return;
+  }
+  try {
+    const { getPosts } = await import('./core/post');
+    const posts = await getPosts(subreddit);
+    res.status(200).json(posts);
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message || 'Failed to fetch posts' });
   }
 });
 

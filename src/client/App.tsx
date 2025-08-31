@@ -28,15 +28,11 @@ export const App = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [score, setScore] = useState(0);
 
-  // Simulate fetching posts (replace with real API call)
+  // Fetch posts from API
   const fetchPosts = async (sub: string): Promise<Post[]> => {
-    // Placeholder: generate 5 fake posts
-    return Array.from({ length: 5 }).map((_, i) => ({
-      id: `${sub}-post${i}`,
-      title: `Sample post ${i + 1} from r/${sub}`,
-      upvotes: Math.floor(Math.random() * 10000),
-      image: i % 2 === 0 ? '/snoo.png' : undefined,
-    }));
+    const res = await fetch(`/api/getPosts?subreddit=${encodeURIComponent(sub)}`);
+    if (!res.ok) throw new Error('Failed to fetch posts');
+    return await res.json();
   };
 
   const startQuiz = async (sub: string) => {
@@ -72,28 +68,32 @@ export const App = () => {
   // Home screen: subreddit selection
   if (screen === Screen.Home) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-6">
-        <img className="object-contain w-1/2 max-w-[250px] mx-auto" src="/snoo.png" alt="Snoo" />
-        <h1 className="text-2xl font-bold text-center">Guess the Upvotes!</h1>
-        <div className="flex flex-col gap-2 w-full max-w-xs">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-8 bg-gradient-to-br from-orange-100 via-white to-red-100 px-4">
+        <div className="flex flex-col items-center gap-2">
+          <img className="object-contain w-28 h-28 mb-2 drop-shadow-lg" src="/snoo.png" alt="Snoo" />
+          <h1 className="text-4xl font-extrabold text-[#d93900] tracking-tight drop-shadow-sm">ViralityTest</h1>
+          <p className="text-lg text-gray-700 font-medium italic mt-1 text-center max-w-md">Can you guess how viral a Reddit post is? Test your upvote intuition and challenge your friends!</p>
+        </div>
+        <div className="flex flex-col gap-2 w-full max-w-xs bg-white/80 rounded-xl shadow-lg p-6 border border-orange-200">
+          <span className="text-center text-gray-800 font-semibold mb-2">Choose a subreddit to start:</span>
           {POPULAR_SUBREDDITS.map((sub) => (
             <button
               key={sub}
-              className="bg-[#d93900] text-white py-2 rounded font-semibold hover:bg-[#b32a00] transition-colors"
+              className="bg-[#d93900] text-white py-2 rounded font-semibold hover:bg-[#b32a00] transition-colors shadow"
               onClick={() => startQuiz(sub)}
             >
               r/{sub}
             </button>
           ))}
-          <div className="flex gap-2 mt-2">
+          <div className="flex gap-2 mt-3">
             <input
-              className="flex-1 border px-2 py-1 rounded"
+              className="flex-1 border border-gray-300 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-[#d93900]"
               placeholder="Custom subreddit"
               value={customSubreddit}
               onChange={(e) => setCustomSubreddit(e.target.value)}
             />
             <button
-              className="bg-[#d93900] text-white px-3 rounded hover:bg-[#b32a00]"
+              className="bg-[#d93900] text-white px-3 rounded hover:bg-[#b32a00] font-semibold shadow"
               disabled={!customSubreddit}
               onClick={() => startQuiz(customSubreddit)}
             >
@@ -101,6 +101,9 @@ export const App = () => {
             </button>
           </div>
         </div>
+        <footer className="mt-8 text-gray-400 text-xs text-center">
+          &copy; {new Date().getFullYear()} ViralityTest &mdash; Not affiliated with Reddit
+        </footer>
       </div>
     );
   }
