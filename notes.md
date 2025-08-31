@@ -43,7 +43,41 @@ Points = max_points - (|log10(actual) - log10(guess)| * scale_factor).
 This means guessing 1,000 when the actual is 10,000 feels “close,” but guessing 10 when it’s 10,000 feels way off.
 
 
+## Inspiration
+ViralityTest was inspired by the viral nature of Reddit posts and the curiosity around what makes content popular. We wanted to create a fun, interactive way for users to test their intuition about Reddit upvotes and learn more about virality trends.
 
+## What it does
+ViralityTest is a quiz game where users are shown real Reddit posts and must guess how many upvotes each post received. After each guess, users get instant feedback, a score based on the accuracy of their guess (using a logarithmic scoring system), and a summary of their performance at the end, including links to the original posts.
+
+## How we built it
+The app is built with React and TypeScript, using Vite for fast development and build tooling. The client fetches real Reddit post data from a custom Express server endpoint. The UI is styled with Tailwind CSS and features dynamic feedback, loading states, and a modular component structure. The app is designed to run as a Devvit web app, following Reddit's guidelines for webview games.
+
+## Challenges we ran into
+- Handling Devvit's sandboxed iframe environment, which restricts popups and new tab links
+- Ensuring the UI is responsive and visually appealing across devices
+- Implementing a fair and engaging scoring system that rewards close guesses
+- Managing async data fetching and loading states for a smooth user experience
+- Refactoring code for maintainability and modularity as the app grew
+
+## Accomplishments that we're proud of
+- Successfully integrating real Reddit data into the quiz flow
+- Creating a log-based scoring system that feels fair and fun
+- Providing instant, nuanced feedback and a detailed final score summary
+- Achieving a clean, modern UI with good UX and accessibility
+- Refactoring the codebase into reusable components and utilities
+
+## What we learned
+- The importance of considering platform limitations (like sandboxed iframes) early in the design
+- How to structure a React app for maintainability and scalability
+- Techniques for providing engaging feedback and keeping users motivated
+- Best practices for integrating third-party APIs and handling async data
+
+## What's next for ViralityTest
+- Add more quiz modes (e.g., by subreddit, by time period, or by post type)
+- Implement leaderboards or social sharing features
+- Add user accounts or persistent score tracking
+- Improve mobile experience and accessibility
+- Explore more advanced analytics or feedback based on user performance
 
 
 ### Based on Devvit React Starter

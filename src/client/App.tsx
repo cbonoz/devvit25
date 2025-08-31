@@ -1,14 +1,25 @@
 
-
 import { useState } from 'react';
-import { ScoringInfo } from './ScoringInfo';
 
-type Post = {
+import { ScoringInfo } from './components/ScoringInfo';
+import { QuizQuestion } from './components/QuizQuestion';
+import { FinalScore } from './components/FinalScore';
+import { getFeedback, getLogScore, fetchPosts } from './util';
+
+
+
+export type Post = {
   id: string;
   title: string;
   upvotes: number;
   image?: string | undefined;
 };
+
+export type GuessResult = {
+  post: Post;
+  guess: number;
+};
+
 
 const POPULAR_SUBREDDITS = ['pics', 'funny', 'AskReddit'];
 
@@ -21,6 +32,7 @@ enum Screen {
 }
 
 export const App = () => {
+  const [guesses, setGuesses] = useState<GuessResult[]>([]);
   const [screen, setScreen] = useState<Screen>(Screen.Home);
   const [subreddit, setSubreddit] = useState('');
   const [customSubreddit, setCustomSubreddit] = useState('');
@@ -35,12 +47,6 @@ export const App = () => {
   const [lastFeedback, setLastFeedback] = useState<string>('');
   const [lastEmoji, setLastEmoji] = useState<string>('');
 
-  // Fetch posts from API
-  const fetchPosts = async (sub: string): Promise<Post[]> => {
-    const res = await fetch(`/api/getPosts?subreddit=${encodeURIComponent(sub)}`);
-    if (!res.ok) throw new Error('Failed to fetch posts');
-    return await res.json();
-  };
 
   const startQuiz = async (sub: string) => {
     setSubreddit(sub);
@@ -49,6 +55,7 @@ export const App = () => {
     setScore(0);
     setGuess('');
     setShowResult(false);
+    setGuesses([]);
     setLoadingPosts(true);
     try {
       const fetched = await fetchPosts(sub);
@@ -58,23 +65,6 @@ export const App = () => {
     }
   };
 
-  // Log-based scoring and feedback
-  const maxPoints = 100;
-  const scaleFactor = 33; // 1 log10 off = lose 33 points
-  function getLogScore(actual: number, guess: number) {
-    if (actual <= 0 || guess <= 0) return 0;
-    const diff = Math.abs(Math.log10(actual) - Math.log10(guess));
-    const points = Math.max(0, Math.round(maxPoints - diff * scaleFactor));
-    return points;
-  }
-
-  function getFeedback(diff: number) {
-    if (diff < 0.1) return { text: 'Perfect!', emoji: '🎯' };
-    if (diff < 0.25) return { text: 'So close!', emoji: '🔥' };
-    if (diff < 0.5) return { text: 'Not bad!', emoji: '👍' };
-    if (diff < 1.0) return { text: 'Pretty far', emoji: '🤔' };
-    return { text: 'Way off!', emoji: '😅' };
-  }
 
   const handleGuess = () => {
     const post = posts[current];
@@ -89,6 +79,7 @@ export const App = () => {
     }
     setLastPoints(points);
     setScore((s) => s + points);
+    setGuesses((prev) => [...prev, { post, guess: userGuess }]);
     const feedback = getFeedback(diff);
     setLastFeedback(feedback.text);
     setLastEmoji(feedback.emoji);
@@ -171,90 +162,40 @@ export const App = () => {
 
   // Quiz screen: show post and input for upvotes
   if (screen === Screen.Quiz) {
-    if (loadingPosts) {
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen gap-6">
-          <div className="w-full max-w-md bg-white rounded shadow p-8 flex flex-col items-center">
-            <span className="text-lg font-semibold text-[#d93900] mb-2">Loading posts...</span>
-            {imgError ? (
-              <span style={{ fontSize: '2.5rem' }}>⏳</span>
-            ) : (
-              <img
-                src="/loading.gif"
-                alt="Loading"
-                className="w-16 h-16"
-                onError={() => setImgError(true)}
-              />
-            )}
-          </div>
-        </div>
-      );
-    }
     if (posts.length) {
       const post = posts[current];
       if (!post) return null;
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen gap-6">
-          <div className="w-full max-w-md bg-white rounded shadow p-4 flex flex-col items-center">
-            <h2 className="text-lg font-bold mb-2 text-center">Post {current + 1} of 5</h2>
-            {post.image ? (
-              <img src={post.image} alt="Post" className="w-32 h-32 object-contain mb-2" />
-            ) : null}
-            <div className="text-center text-gray-900 font-medium mb-4">{post.title}</div>
-            <input
-              className="border px-2 py-1 rounded text-center mb-2"
-              type="number"
-              placeholder="Guess upvotes"
-              value={guess}
-              onChange={(e) => setGuess(e.target.value)}
-              disabled={showResult}
-            />
-            <button
-              className="bg-[#d93900] text-white px-4 py-2 rounded font-semibold hover:bg-[#b32a00] transition-colors"
-              onClick={handleGuess}
-              disabled={!guess || showResult}
-            >
-              Submit
-            </button>
-          </div>
-          {showResult && post && (
-            <div className="mt-4 flex flex-col items-center gap-2 animate-bounce">
-              <span className="text-3xl">{lastEmoji}</span>
-              <span className="text-xl font-bold text-[#d93900]">{lastFeedback}</span>
-              <span className="text-base text-gray-700">You earned <b>{lastPoints}</b> points</span>
-              <span className="text-xs text-gray-500">Actual: {post.upvotes.toLocaleString()} | Your guess: {guess}</span>
-            </div>
-          )}
-        </div>
+        <QuizQuestion
+          post={post}
+          current={current}
+          guess={guess}
+          setGuess={setGuess}
+          showResult={showResult}
+          lastEmoji={lastEmoji}
+          lastFeedback={lastFeedback}
+          lastPoints={lastPoints}
+          handleGuess={handleGuess}
+          loadingPosts={loadingPosts}
+          imgError={imgError}
+          setImgError={setImgError}
+        />
       );
     }
     return null;
   }
 
-  // Final screen: show score and options
   if (screen === Screen.Final) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-6">
-        <img className="object-contain w-1/2 max-w-[250px] mx-auto" src="/snoo.png" alt="Snoo" />
-        <h2 className="text-2xl font-bold">Your Score: {score} / 500</h2>
-        <div className="flex gap-4">
-          <button
-            className="bg-[#d93900] text-white px-4 py-2 rounded font-semibold hover:bg-[#b32a00]"
-            onClick={() => startQuiz(subreddit)}
-          >
-            Try Again
-          </button>
-          <button
-            className="bg-gray-200 text-gray-800 px-4 py-2 rounded font-semibold hover:bg-gray-300"
-            onClick={() => setScreen(Screen.Home)}
-          >
-            Home
-          </button>
-        </div>
-      </div>
+      <FinalScore
+        score={score}
+        guesses={guesses}
+        subreddit={subreddit}
+        startQuiz={startQuiz}
+        setScreen={setScreen}
+      />
     );
   }
 
-  // Fallback
   return null;
-};
+}
