@@ -13,6 +13,7 @@ export type Post = {
   title: string;
   upvotes: number;
   image?: string | undefined;
+  created?: number;
 };
 
 export type GuessResult = {
@@ -177,6 +178,21 @@ export const App = () => {
 
   // Quiz screen: show post and input for upvotes
   if (screen === Screen.Quiz) {
+    if (loadingPosts && posts.length === 0) {
+      // Show loading indicator while fetching posts
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen gap-6">
+          <div className="w-full max-w-md bg-white rounded shadow p-8 flex flex-col items-center">
+            <span className="text-lg font-semibold text-[#d93900] mb-2">Loading posts...</span>
+            <img
+              src="/loading.gif"
+              alt="Loading"
+              className="w-16 h-16"
+            />
+          </div>
+        </div>
+      );
+    }
     if (posts.length) {
       const post = posts[current];
       if (!post) return null;

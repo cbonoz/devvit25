@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ViralityTestLogo } from './ViralityTestLogo';
 import type { GuessResult } from '../App';
 
 interface FinalScoreProps {
@@ -40,11 +41,16 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
     try {
       await navigator.clipboard.writeText(url);
       setCopiedIndex(idx);
-      setShowCopied(true);
-      setTimeout(() => {
-        setCopiedIndex(null);
-        setShowCopied(false);
-      }, 1200);
+      // Use Reddit toast if available
+      if (typeof window !== 'undefined' && typeof (window as any).showToast === 'function') {
+        (window as any).showToast({ message: 'Link copied!', type: 'success' });
+      } else {
+        setShowCopied(true);
+        setTimeout(() => {
+          setCopiedIndex(null);
+          setShowCopied(false);
+        }, 1200);
+      }
     } catch {}
   };
   return (
