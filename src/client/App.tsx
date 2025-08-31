@@ -185,9 +185,10 @@ export const App = () => {
           <div className="w-full max-w-md bg-white rounded shadow p-8 flex flex-col items-center">
             <span className="text-lg font-semibold text-[#d93900] mb-2">Loading posts...</span>
             <img
-              src="/assets/loading.gif"
+              src="/loading.gif"
               alt="Loading"
-              className="w-16 h-16"
+              className="w-20 h-20 max-w-[80px] max-h-[80px] object-contain"
+              style={{ width: '100%', maxWidth: 80, height: 'auto' }}
             />
           </div>
         </div>
