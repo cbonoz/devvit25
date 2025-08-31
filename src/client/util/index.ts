@@ -40,9 +40,12 @@ export function getFeedback(diff: number) {
 export function getLogScore(actual: number, guess: number) {
   const maxPoints = 100;
   if (actual <= 0 || guess <= 0) return 0;
-  const diff = Math.abs(Math.log10(actual) - Math.log10(guess));
-  // Use a much steeper sigmoid, centered lower, for a continuous but more generous curve
-  const sigmoid = (x: number) => 1 / (1 + Math.exp(10 * (x - 0.18)));
+  const logActual = Math.log10(actual);
+  const diff = Math.abs(logActual - Math.log10(guess));
+  // Make the tolerance depend on the order of magnitude of the actual upvotes
+  // e.g. tolerance = 0.12 + 0.04 * logActual
+  const tolerance = 0.12 + 0.04 * logActual;
+  const sigmoid = (x: number) => 1 / (1 + Math.exp(10 * (x - tolerance)));
   const points = Math.round(maxPoints * sigmoid(diff));
   return points;
 }

@@ -1,53 +1,56 @@
 import { reddit } from '@devvit/web/server';
 
-type RedditPost = {
 const NUM_QUIZ_QUESTIONS = 5;
-// Fetch 5 hot posts from a subreddit for the quiz
+const RESULT_LIMIT  = 25;
 
+
+function filterValidPosts(posts: any[]): any[] {
+  return posts.filter((p: any) =>
+    !p.stickied &&
+    !p.is_ad &&
+    typeof p.score === 'number' &&
+    p.title &&
+    p.score > 0
+  );
+}
+
+async function fetchPosts(subreddit: string, type: string, topTimeRanges: string[]): Promise<any[]> {
+  let postsListing: any;
+  if (type === 'hot') {
+    postsListing = await reddit.getHotPosts({ subredditName: subreddit, limit: RESULT_LIMIT });
+  } else if (type === 'rising') {
+    postsListing = await reddit.getRisingPosts({ subredditName: subreddit, limit: RESULT_LIMIT });
+  } else if (type === 'top') {
+    const idx = Math.floor(Math.random() * topTimeRanges.length);
+    const timeframe = topTimeRanges[idx] as "hour"|"day"|"week"|"month"|"year"|"all";
+    postsListing = await reddit.getTopPosts({ subredditName: subreddit, timeframe, limit: RESULT_LIMIT });
+  } else {
+    return [];
+  }
+  if (postsListing && typeof postsListing.all === 'function') {
+    return await postsListing.all();
+  }
+  return Array.isArray(postsListing) ? postsListing : [];
+}
 
 export const getPosts = async (subreddit: string) => {
   if (!subreddit) throw new Error('subreddit is required');
-  // Randomize listing type and time range
-  const listingTypes = ['hot', 'new', 'top', 'rising'];
+  const listingTypes = ['hot', 'top', 'rising'];
   const topTimeRanges = ['hour', 'day', 'week', 'month', 'year', 'all'];
-  let posts: any[] = [];
   let filtered: any[] = [];
   let attempts = 0;
   while (filtered.length < NUM_QUIZ_QUESTIONS && attempts < 4) {
-    let type = listingTypes[Math.floor(Math.random() * listingTypes.length)];
-    let postsListing: any;
-    if (type === 'hot') {
-      postsListing = await reddit.getHotPosts({ subredditName: subreddit, limit: 15 });
-    } else if (type === 'new') {
-      postsListing = await reddit.getNewPosts({ subredditName: subreddit, limit: 15 });
-    } else if (type === 'rising') {
-      postsListing = await reddit.getRisingPosts({ subredditName: subreddit, limit: 15 });
-    } else if (type === 'top') {
-      const idx = Math.floor(Math.random() * topTimeRanges.length);
-      const timeframe = topTimeRanges[idx] as "hour"|"day"|"week"|"month"|"year"|"all";
-      postsListing = await reddit.getTopPosts({ subredditName: subreddit, timeframe, limit: 15 });
-    }
-    posts = postsListing && typeof postsListing.all === 'function' ? await postsListing.all() : Array.isArray(postsListing) ? postsListing : [];
-    filtered = posts.filter((p: any) =>
-      !p.stickied &&
-      !p.is_ad &&
-      typeof p.score === 'number' &&
-      p.title &&
-      p.score > 0 // Only allow posts with positive upvotes
-    );
+    const idx = Math.floor(Math.random() * listingTypes.length);
+    const type: string = listingTypes[idx] ?? 'hot';
+    let posts = await fetchPosts(subreddit, type, topTimeRanges);
+    filtered = filterValidPosts(posts);
     attempts++;
   }
   // Fallback: if still not enough, try 'hot' only
   if (filtered.length < NUM_QUIZ_QUESTIONS) {
-    const postsListing = await reddit.getHotPosts({ subredditName: subreddit, limit: 25 });
-    posts = postsListing && typeof postsListing.all === 'function' ? await postsListing.all() : Array.isArray(postsListing) ? postsListing : [];
-    filtered = posts.filter((p: any) =>
-      !p.stickied &&
-      !p.is_ad &&
-      typeof p.score === 'number' &&
-      p.title &&
-      p.score > 0
-    );
+  let postsListing: any = await reddit.getHotPosts({ subredditName: subreddit, limit: RESULT_LIMIT });
+  let posts = postsListing && typeof postsListing.all === 'function' ? await postsListing.all() : Array.isArray(postsListing) ? postsListing : [];
+  filtered = filterValidPosts(posts);
   }
   const shuffled = filtered.sort(() => Math.random() - 0.5).slice(0, NUM_QUIZ_QUESTIONS);
   return shuffled.map((p: any) => {

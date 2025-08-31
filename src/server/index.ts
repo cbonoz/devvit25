@@ -132,7 +132,7 @@ router.get('/api/getPosts', async (req, res) => {
     return;
   }
   try {
-    const { getPosts } = await import('./core/post');
+    const { getPosts } = await import('./core/getQuizPosts');
     const posts = await getPosts(subreddit);
     res.status(200).json(posts);
   } catch (e) {

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getPosts } from '../../src/server/core/post';
+import { getPosts } from '../../src/server/core/getQuizPosts';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { subreddit } = req.query;
