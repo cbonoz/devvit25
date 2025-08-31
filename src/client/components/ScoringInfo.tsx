@@ -17,11 +17,24 @@ export const ScoringInfo: React.FC = () => (
       100 upvotes → log₁₀ = 2<br />
       10,000 upvotes → log₁₀ = 4
     </div>
+    <h3 className="font-semibold text-lg mt-4 mb-1">How Points Are Calculated</h3>
     <p className="mb-2 text-gray-700">
-      <b>Points</b> = <code>max_points - (|log₁₀(actual) - log₁₀(guess)| × scale_factor)</code>
+      We use a <b>sigmoid curve</b> for scoring, so close guesses get most points and far guesses drop off smoothly.<br />
+      <b>Points</b> = <code>100 × sigmoid(4 × (0.25 - |log₁₀(actual) - log₁₀(guess)|))</code>
     </p>
+    <div className="bg-orange-50 rounded p-3 mb-2 text-sm">
+      <b>What does this mean?</b><br />
+      - 0 log difference (perfect): 100 points<br />
+      - 0.1 log diff: ~88 points<br />
+      - 0.25 log diff: ~73 points<br />
+      - 0.5 log diff: ~50 points<br />
+      - 1.0 log diff: ~27 points<br />
+      <br />
+      <b>Visual Feedback:</b> You'll see a colored bar and your log difference after each guess.<br />
+      <span className="text-xs text-gray-500">Being off by a factor of 10 is much worse than being off by a factor of 2.</span>
+    </div>
     <p className="text-gray-700">
-      This means guessing 1,000 when the actual is 10,000 feels “close,” but guessing 10 when it’s 10,000 feels way off.
+      <b>Why?</b> This system rewards intuition for scale, not just raw numbers. Try to get as close as possible on the log scale!
     </p>
   </div>
 );
