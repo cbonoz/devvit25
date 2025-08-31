@@ -1,7 +1,8 @@
 🔥 ViralityTest
 ---
 
-A game that tests your ability to estimate how viral a Reddit post was.
+
+A game that tests your ability to estimate how viral a Reddit post was—and helps you build the skill to spot what makes content go viral. By training your intuition for upvote counts, you’ll learn to recognize patterns in viral posts, so you can apply these insights to create more viral content yourself.
 
 Players are shown a Reddit post’s title (and optionally its thumbnail or subreddit) and must guess how many upvotes it received. After submitting a guess, the game reveals the real score and awards points based on accuracy.
 

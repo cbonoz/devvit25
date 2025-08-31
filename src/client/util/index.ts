@@ -1,3 +1,5 @@
+import type { Post } from '../App';
+
 // Loose upvote bounds for hints
 export function getLooseLowerBound(upvotes: number) {
   if (upvotes > 100000) return 10000;
@@ -16,7 +18,6 @@ export function getLooseUpperBound(upvotes: number) {
   if (upvotes < 100000) return 100000;
   return 1000000;
 }
-import type { Post } from '../App';
 
 export const fetchPosts = async (sub: string): Promise<Post[]> => {
   const res = await fetch(`/api/getPosts?subreddit=${encodeURIComponent(sub)}`);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ViralityTestLogo } from './ViralityTestLogo';
+import { MAX_SCORE } from '../constants';
 import type { GuessResult } from '../App';
 
 interface FinalScoreProps {
@@ -10,13 +11,12 @@ interface FinalScoreProps {
   setScreen: (screen: any) => void;
 }
 
-const MAX_SCORE = 500;
 
 export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddit, startQuiz, setScreen }) => {
   let feedback = '';
   let emoji = '';
   const percent = score / MAX_SCORE;
-  if (percent === 1) {
+  if (percent > 0.99) {
     feedback = 'Legendary! You are a true Reddit oracle.';
     emoji = '🏆';
   } else if (percent > 0.9) {
@@ -29,7 +29,7 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
     feedback = 'Not bad! You have a decent Reddit intuition.';
     emoji = '👍';
   } else if (percent > 0.3) {
-    feedback = 'Keep practicing! You can get even better.';
+    feedback = 'Keep practicing! You can get even better. 400+ is a great score.';
     emoji = '💡';
   } else {
     feedback = 'Give it another shot! Virality is tricky.';
@@ -60,7 +60,10 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
           Link copied!
         </div>
       )}
-      <img className="object-contain w-1/2 max-w-[250px] mx-auto" src="/snoo.png" alt="Snoo" />
+      <div className="flex flex-col items-center w-full mt-2 mb-2">
+        <ViralityTestLogo size="sm" />
+        <span className="text-2xl font-bold text-[#d93900] mt-1 mb-2">Results</span>
+      </div>
       <div className="flex flex-col items-center gap-2">
         <span className="text-5xl">{emoji}</span>
         <h2 className="text-2xl font-bold">Your Score: {score} / {MAX_SCORE}</h2>

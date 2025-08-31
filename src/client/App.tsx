@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { ScoringInfo } from './components/ScoringInfo';
 import { QuizQuestion } from './components/QuizQuestion';
 import { FinalScore } from './components/FinalScore';
+
+import { ViralityTestLogo } from './components/ViralityTestLogo';
+
+import { POPULAR_SUBREDDITS, Screen } from './constants';
 import { getFeedback, getLogScore, fetchPosts } from './util';
 
 
@@ -22,15 +26,6 @@ export type GuessResult = {
 };
 
 
-const POPULAR_SUBREDDITS = ['pics', 'funny', 'AskReddit'];
-
-enum Screen {
-  Home,
-  Quiz,
-  Result,
-  Final,
-  ScoringInfo,
-}
 
 export const App = () => {
   const [guesses, setGuesses] = useState<GuessResult[]>([]);
@@ -101,6 +96,9 @@ export const App = () => {
 
   // Home screen: subreddit selection
   if (screen === Screen.Home) {
+    // Randomly select 3 subreddits to show
+    const shuffledSubs = [...POPULAR_SUBREDDITS].sort(() => Math.random() - 0.5);
+    const featuredSubs = shuffledSubs.slice(0, 3);
     return (
       <div className="relative flex flex-col items-center justify-center min-h-screen gap-8 bg-gradient-to-br from-orange-100 via-white to-red-100 px-4 overflow-hidden">
   {/* Animated background shapes */}
@@ -120,12 +118,12 @@ export const App = () => {
             className="w-36 h-36 md:w-48 md:h-48 mb-2 drop-shadow-lg"
             draggable={false}
           />
-          <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#d93900] via-[#ff9800] to-[#d93900] tracking-tight drop-shadow-sm mb-2">ViralityTest</h1>
+          <ViralityTestLogo size="md" />
           <p className="text-xl md:text-2xl text-gray-700 font-medium italic mt-1 text-center max-w-xl drop-shadow-sm">Can you guess how viral a Reddit post is? <span className="text-[#d93900] font-bold">Test your upvote intuition</span> and challenge your friends!</p>
         </div>
         <div className="flex flex-col gap-2 w-full max-w-xs bg-white/90 rounded-xl shadow-2xl p-6 border border-orange-200 z-10">
           <span className="text-center text-gray-800 font-semibold mb-2 text-lg">Choose a subreddit to start:</span>
-          {POPULAR_SUBREDDITS.map((sub) => (
+          {featuredSubs.map((sub) => (
             <button
               key={sub}
               className="bg-gradient-to-r from-[#d93900] to-[#ff9800] text-white py-2 rounded font-bold hover:from-[#b32a00] hover:to-[#ff9800] transition-all shadow-md text-lg tracking-wide"
