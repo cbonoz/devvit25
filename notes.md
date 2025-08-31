@@ -1,3 +1,22 @@
+## Screenshots
+
+Below are screenshots of ViralityTest in action:
+
+### Home Page
+![Home Page](img/home.png)
+<div align="center"><em>Start your quiz by picking a subreddit or entering your own.</em></div>
+
+### Question Page
+![Question Page](img/question.png)
+<div align="center"><em>Guess the upvotes for a real Reddit post.</em></div>
+
+### Feedback Animation
+![Feedback Animation](img/feedback.png)
+<div align="center"><em>Get instant feedback and see how close your guess was.</em></div>
+
+### Final Score
+![Final Score](img/final.png)
+<div align="center"><em>See your total score and review your guesses.</em></div>
 🔥 ViralityTest
 ---
 
