@@ -8,32 +8,29 @@ export const ScoringInfo: React.FC = () => (
     <p className="mb-2 text-gray-700">
       Reddit post scores follow a <b>power-law distribution</b> (most posts get few upvotes, some get hundreds of thousands). To make scoring fair, we normalize guesses:
     </p>
-    <h3 className="font-semibold text-lg mt-4 mb-1">Percentage-Based Scoring</h3>
+    <h3 className="font-semibold text-lg mt-4 mb-1">Simple & Intuitive Scoring</h3>
     <p className="mb-2 text-gray-700">
-      We calculate your percentage error and use a more intuitive scoring system.<br />
-      <b>Percentage Error</b> = <code>|1 - (your_guess / actual_upvotes)|</code><br />
-      Higher upvote posts get slightly more forgiving scoring.
+      We simply ask: <b>"How many times off were you?"</b><br />
+      This works the same for all post sizes - no complex math!
     </p>
     <div className="bg-orange-50 rounded p-3 mb-2 text-sm">
-      <b>Smart Hybrid Scoring System:</b><br />
+      <b>Smart Multi-Tier Scoring:</b><br />
       
-      <b>For tiny posts (≤10 upvotes):</b> Uses absolute difference instead of percentages<br />
-      - Off by 1: 100 points | Off by 2: 95 points | Off by 3: 85 points<br />
-      - Off by 5: 70 points | Off by 10: 50 points | Minimum: 20 points<br />
+      <b>Small Numbers (≤10 upvotes) - Absolute Difference:</b><br />
+      - Off by 1: <b>100 pts</b> | Off by 2: <b>95 pts</b> | Off by 3: <b>90 pts</b><br />
+      - Off by 5: <b>80 pts</b> | Off by 10: <b>70 pts</b><br />
       
-      <b>For small posts (11-50 upvotes):</b> Gentle percentage approach<br />
-      - Within 20%: 80-100 points | Within 50%: 50-80 points | Minimum: 25 points<br />
-      
-      <b>For larger posts (50+ upvotes):</b> Percentage-based with high tolerance<br />
-      - 1-5% error: 95-90 points | 5-15%: 90-80 points<br />
-      - Up to 40-70% tolerance depending on size | Minimum: 15 points<br />
+      <b>Larger Numbers - Ratio + Magnitude Bonus:</b><br />
+      - Within 2x: <b>85 pts</b> | Within 3x: <b>75 pts</b> | Within 5x: <b>65 pts</b><br />
+      - Same magnitude: <b>Min 60 pts</b> | Close magnitude: <b>Min 45 pts</b><br />
       <br />
-      <b>Examples:</b><br />
-      - Guess 5 on a 2 upvote post: Off by 3 = 85 points (absolute difference!)<br />
-      - Guess 30 on a 20 upvote post: 50% error = ~50 points (gentle percentage)<br />
-      - Guess 8,000 on a 10,000 upvote post: 20% error = ~75 points<br />
+      <b>Examples showing the improvements:</b><br />
+      - Guess 1 vs Actual 3: Off by 2 = <b>95 pts</b> (absolute difference!)<br />
+      - Guess 50 vs Actual 1000: 20x off BUT close magnitude = <b>45 pts</b><br />
+      - Guess 800 vs Actual 1200: 1.5x + same magnitude = <b>90 pts</b><br />
+      - Guess 2 vs Actual 10: Off by 8 = <b>70 pts</b> (small number bonus)<br />
       <br />
-      <span className="text-xs text-gray-500">The system automatically picks the fairest scoring method based on post size!</span>
+      <span className="text-xs text-gray-500">Perfect for small posts where being off by 2-3 upvotes is actually great!</span>
     </div>
     <p className="text-gray-700">
       <b>Why?</b> This system rewards intuition for scale, not just raw numbers. Try to get as close as possible on the log scale!

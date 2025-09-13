@@ -68,15 +68,13 @@ export const App = () => {
     const actual = post.upvotes;
     const userGuess = Number(guess);
     let points = 0;
-    let diff = 0;
     if (actual > 0 && userGuess > 0) {
-      diff = Math.abs(Math.log10(actual) - Math.log10(userGuess));
       points = getLogScore(actual, userGuess);
     }
     setLastPoints(points);
     setScore((s) => s + points);
     setGuesses((prev) => [...prev, { post, guess: userGuess }]);
-    const feedback = getFeedback(diff);
+    const feedback = getFeedback(points);
     setLastFeedback(feedback.text);
     setLastEmoji(feedback.emoji);
     setShowResult(true);

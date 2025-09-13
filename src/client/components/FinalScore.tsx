@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ViralityTestLogo } from './ViralityTestLogo';
 import { showToast } from '@devvit/web/client';
 import { MAX_SCORE, APP_URL } from '../constants';
+import { getFinalScoreFeedback } from '../util';
 import type { GuessResult } from '../App';
 
 interface FinalScoreProps {
@@ -64,28 +65,9 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
     // Final fallback: Show message for manual copy
     showToast(`Copy this message: ${shareMessage.substring(0, 40)}...`);
   };
-  let feedback = '';
-  let emoji = '';
-  const percent = score / MAX_SCORE;
-  if (percent > 0.99) {
-    feedback = 'Legendary! You are a true Reddit oracle.';
-    emoji = '🏆';
-  } else if (percent > 0.9) {
-    feedback = 'Amazing! You really know your Reddit virality.';
-    emoji = '🔥';
-  } else if (percent > 0.75) {
-    feedback = 'Great job! You have a keen sense for upvotes.';
-    emoji = '👏';
-  } else if (percent > 0.5) {
-    feedback = 'Not bad! You have a decent Reddit intuition.';
-    emoji = '👍';
-  } else if (percent > 0.3) {
-    feedback = 'Keep practicing! You can get even better. Getting to 400+ would be a great score.';
-    emoji = '💡';
-  } else {
-    feedback = 'Give it another shot! Virality is tricky.';
-    emoji = '😅';
-  }
+
+  const { feedback, emoji } = getFinalScoreFeedback(score);
+  
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const handleCopy = async (url: string, idx: number) => {
     // Try modern clipboard API first
