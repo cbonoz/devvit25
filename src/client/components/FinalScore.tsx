@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ViralityTestLogo } from './ViralityTestLogo';
-import { MAX_SCORE } from '../constants';
+import { showToast } from '@devvit/web/client';
+import { MAX_SCORE, APP_URL } from '../constants';
 import type { GuessResult } from '../App';
 
 interface FinalScoreProps {
@@ -13,6 +14,56 @@ interface FinalScoreProps {
 
 
 export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddit, startQuiz, setScreen }) => {
+  const shareMessage = `I scored ${score} on ViralityTest! Can you beat my score? Try it here: ${APP_URL}`;
+  const handleShare = async () => {
+    // Try native Web Share API first
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'ViralityTest Score',
+          text: shareMessage,
+          url: APP_URL,
+        });
+        showToast({ text: 'Shared successfully!', appearance: 'success' });
+        return;
+      } catch {
+        // User cancelled or share failed, continue to clipboard fallback
+      }
+    }
+    
+    // Try modern clipboard API
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(shareMessage);
+        showToast({ text: 'Share message copied!', appearance: 'success' });
+        return;
+      } catch {}
+    }
+    
+    // Fallback: Use input element with execCommand
+    try {
+      const tempInput = document.createElement('input');
+      tempInput.value = shareMessage;
+      tempInput.style.position = 'fixed';
+      tempInput.style.left = '-999999px';
+      tempInput.style.top = '-999999px';
+      document.body.appendChild(tempInput);
+      tempInput.focus();
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999); // For mobile devices
+      
+      const success = document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      
+      if (success) {
+        showToast({ text: 'Share message copied!', appearance: 'success' });
+        return;
+      }
+    } catch {}
+    
+    // Final fallback: Show message for manual copy
+    showToast(`Copy this message: ${shareMessage.substring(0, 40)}...`);
+  };
   let feedback = '';
   let emoji = '';
   const percent = score / MAX_SCORE;
@@ -36,33 +87,54 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
     emoji = '😅';
   }
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-  const [showCopied, setShowCopied] = useState(false);
   const handleCopy = async (url: string, idx: number) => {
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopiedIndex(idx);
+        showToast({ text: 'Link copied!', appearance: 'success' });
+        return;
+      } catch {}
+    }
+    
+    // Fallback 1: Use input element with execCommand
     try {
-      await navigator.clipboard.writeText(url);
-      setCopiedIndex(idx);
-      // Use Reddit toast if available
-      if (typeof window !== 'undefined' && typeof (window as any).showToast === 'function') {
-        (window as any).showToast({ message: 'Link copied!', type: 'success' });
-      } else {
-        setShowCopied(true);
-        setTimeout(() => {
-          setCopiedIndex(null);
-          setShowCopied(false);
-        }, 1200);
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      tempInput.style.position = 'fixed';
+      tempInput.style.left = '-999999px';
+      tempInput.style.top = '-999999px';
+      document.body.appendChild(tempInput);
+      tempInput.focus();
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999); // For mobile devices
+      
+      const success = document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      
+      if (success) {
+        setCopiedIndex(idx);
+        showToast({ text: 'Link copied!', appearance: 'success' });
+        return;
       }
     } catch {}
+    
+    // Fallback 2: Show the URL for manual copy
+    showToast(`Copy this link: ${url.substring(0, 50)}...`);
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-2">
-      {showCopied && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 text-lg animate-bounce">
-          Link copied!
-        </div>
-      )}
+      {/* Toast handled by Devvit's showToast, no manual toast needed */}
       <div className="flex flex-col items-center w-full mt-2 mb-2">
         <ViralityTestLogo size="sm" />
         <span className="text-2xl font-bold text-[#d93900] mt-1 mb-2">Results</span>
+        <button
+          className="bg-[#ff9800] text-white px-4 py-2 rounded font-semibold hover:bg-[#d93900] mt-2 mb-2"
+          onClick={handleShare}
+        >
+          Share this result
+        </button>
       </div>
       <div className="flex flex-col items-center gap-2">
         <span className="text-5xl">{emoji}</span>

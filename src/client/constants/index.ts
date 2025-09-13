@@ -1,3 +1,5 @@
+// Main app URL for sharing and links
+export const APP_URL = 'https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest';
 // Maximum possible score for a quiz
 export const MAX_SCORE = 500;
 

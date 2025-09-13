@@ -29,7 +29,9 @@ We learned a lot about what makes content go viral—and how hard it is to predi
 We’d love to add more features: leaderboards, multiplayer challenges, deeper analytics on what makes posts go viral, and maybe even AI-powered hints. Expanding to other platforms and social networks could make ViralityTest even more useful for aspiring viral creators.
 
 
-Play it here: https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
+Play it here (public app link): https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
+
+Developer app page: https://developers.reddit.com/apps/viralitytest
 
 ## Screenshots
 
