@@ -9,27 +9,31 @@
 
 Play it here: https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
 
-### Screenshots
-
 ## Screenshots
 
----
-
 ### Home Page
-![Home Page](img/home_page.png)
-*Start your quiz by picking a subreddit or entering your own.*
+<div align="center">
+    <em>Start your quiz by picking a subreddit or entering your own.</em><br>
+    <img src="img/home_page.png" alt="Home Page" style="max-width:500px; width:100%; margin:auto;" />
+</div>
 
 ### Questions Dynamically Generated
-![Questions Dynamically Generated](img/questions_dynamically_generated.png)
-*Each quiz pulls live posts from Reddit for a fresh experience.*
+<div align="center">
+    <em>Each quiz pulls live posts from Reddit for a fresh experience.</em><br>
+    <img src="img/questions_dynamically_generated.png" alt="Questions Dynamically Generated" style="max-width:500px; width:100%; margin:auto;" />
+</div>
 
 ### Feedback After Each Question
-![Feedback After Each Question](img/feedback_after_each_question.png)
-*See how close your guess was and get instant feedback.*
+<div align="center">
+    <em>See how close your guess was and get instant feedback.</em><br>
+    <img src="img/feedback_after_each_question.png" alt="Feedback After Each Question" style="max-width:500px; width:100%; margin:auto;" />
+</div>
 
 ### Result Page
-![Result Page](img/result_page.png)
-*Review your final score and see your performance.*
+<div align="center">
+    <em>Review your final score and see your performance.</em><br>
+    <img src="img/result_page.png" alt="Result Page" style="max-width:500px; width:100%; margin:auto;" />
+</div>
 
 
 ### Useful links
