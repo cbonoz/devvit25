@@ -1,4 +1,10 @@
-<p align='center'>
+![ViralityTest Logo](https://i.ibb.co/fVNMnMLL/logo.png)
+
+# 🔥 ViralityTest
+
+Everyone wants to go viral online — do you know what separates a viral post from one that gets ignored? ViralityTest was inspired by the idea that you can train your intuition for what makes content blow up. By challenging yourself to guess the upvotes of real Reddit posts, you'll learn to spot the patterns and ingredients of viral success.
+
+Built as a submission to the [Fun and Games with Devvit hackathon](https://redditfunandgames.devpost.com/).enter'>
     <img src="https://i.ibb.co/fVNMnMLL/logo.png" width=600 />
 </p>
 
@@ -36,28 +42,24 @@ Developer app page: https://developers.reddit.com/apps/viralitytest
 ## Screenshots
 
 ### Home Page
-<div align="center">
-    <em>Start your quiz by picking a subreddit or entering your own.</em><br>
-        <img src="img/home_page.png" alt="Home Page" style="max-width:600px; width:100%; margin:auto;" width=600  />
-</div>
+*Start your quiz by picking a subreddit or entering your own.*
+
+![Home Page](img/home_page.png)
 
 ### Questions Dynamically Generated
-<div align="center">
-    <em>Each quiz pulls live posts from Reddit for a fresh experience.</em><br>
-        <img src="img/questions_dynamically_generated.png" alt="Questions Dynamically Generated" width=600 style="max-width:600px; width:100%; margin:auto;" />
-</div>
+*Each quiz pulls live posts from Reddit for a fresh experience.*
+
+![Questions Dynamically Generated](img/questions_dynamically_generated.png)
 
 ### Feedback After Each Question
-<div align="center">
-    <em>See how close your guess was and get instant feedback.</em><br>
-        <img src="img/feedback_after_each_question.png" alt="Feedback After Each Question" width=600 style="max-width:600px; width:100%; margin:auto;" />
-</div>
+*See how close your guess was and get instant feedback.*
+
+![Feedback After Each Question](img/feedback_after_each_question.png)
 
 ### Result Page
-<div align="center">
-    <em>Review your final score and see your performance.</em><br>
-        <img src="img/result_page.png" alt="Result Page" width=600 style="max-width:600px; width:100%; margin:auto;" />
-</div>
+*Review your final score and see your performance.*
+
+![Result Page](img/result_page.png)
 
 
 ### Useful links
@@ -91,3 +93,5 @@ A starter to build web applications on Reddit's developer platform
 ## Cursor Integration
 
 This template comes with a pre-configured cursor environment. To get started, [download cursor](https://www.cursor.com/downloads) and enable the `devvit-mcp` when prompted.
+
+---
