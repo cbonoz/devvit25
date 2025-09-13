@@ -5,7 +5,8 @@
     "dir": "dist/client",
     "entrypoints": {
       "default": {
-        "entry": "index.html"
+        "entry": "index.html",
+        "height": "tall"
       }
     }
   },
@@ -13,12 +14,21 @@
     "dir": "dist/server",
     "entry": "index.cjs"
   },
+  "permissions": {
+    "http": {
+      "enable": true,
+      "domains": ["www.reddit.com", "api.reddit.com"]
+    }
+  },
+  "marketingAssets": {
+    "icon": "src/client/public/snoo.png"
+  },
   "media": {},
   "menu": {
     "items": [
       {
-        "label": "Create a new post",
-        "description": "viralitytest",
+        "label": "Take a ViralityTest Quiz",
+        "description": "Test your ability to predict viral Reddit content",
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"
