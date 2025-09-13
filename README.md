@@ -1,8 +1,39 @@
+<p align='center'>
+    <img src="https://i.ibb.co/5XzJr3Yf/virality-test-logo.png"/>
+</p>
+
+
 🔥 ViralityTest
 ---
 
 
-### Based on Devvit React Starter
+Play it here: https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
+
+### Screenshots
+
+
+
+<div align="center">
+	<h3>Home Page</h3>
+	<img src="img/home_page.png" alt="Home Page" width="500" />
+	<div><em>Start your quiz by picking a subreddit or entering your own.</em></div>
+
+	<h3>Questions Dynamically Generated</h3>
+	<img src="img/questions_dynamically_generated.png" alt="Questions Dynamically Generated" width="500" />
+	<div><em>Each quiz pulls live posts from Reddit for a fresh experience.</em></div>
+
+	<h3>Feedback After Each Question</h3>
+	<img src="img/feedback_after_each_question.png" alt="Feedback After Each Question" width="500" />
+	<div><em>See how close your guess was and get instant feedback.</em></div>
+
+	<h3>Result Page</h3>
+	<img src="img/result_page.png" alt="Result Page" width="500" />
+	<div><em>Review your final score and see your performance.</em></div>
+
+	<h3>ViralityTest Logo</h3>
+	<img src="img/virality_test_logo.png" alt="ViralityTest Logo" width="300" />
+	<div><em>Branding for the ViralityTest app.</em></div>
+</div>
 
 A starter to build web applications on Reddit's developer platform
 
