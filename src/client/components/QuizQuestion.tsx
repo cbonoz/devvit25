@@ -123,7 +123,7 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
               return null;
             })()}
             <span className="text-xs text-gray-500">You earned <b>{lastPoints}</b> points</span>
-            <span className="text-xs text-gray-400 mt-1">Scoring uses a log scale: being off by a factor of 10 is much worse than being off by a factor of 2.</span>
+            <span className="text-xs text-gray-400 mt-1">Scoring uses percentage error: closer guesses earn more points.</span>
           </div>
         )}
         {/* Title, hint, and input only when not showing result */}
