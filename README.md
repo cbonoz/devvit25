@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src="https://i.ibb.co/fVNMnMLL/logo.png"/>
+    <img src="https://i.ibb.co/fVNMnMLL/logo.png" width=600 />
 </p>
 
 
@@ -14,25 +14,25 @@ Play it here: https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
 ### Home Page
 <div align="center">
     <em>Start your quiz by picking a subreddit or entering your own.</em><br>
-    <img src="img/home_page.png" alt="Home Page" style="max-width:500px; width:100%; margin:auto;" />
+        <img src="img/home_page.png" alt="Home Page" style="max-width:600px; width:100%; margin:auto;" />
 </div>
 
 ### Questions Dynamically Generated
 <div align="center">
     <em>Each quiz pulls live posts from Reddit for a fresh experience.</em><br>
-    <img src="img/questions_dynamically_generated.png" alt="Questions Dynamically Generated" style="max-width:500px; width:100%; margin:auto;" />
+        <img src="img/questions_dynamically_generated.png" alt="Questions Dynamically Generated" style="max-width:600px; width:100%; margin:auto;" />
 </div>
 
 ### Feedback After Each Question
 <div align="center">
     <em>See how close your guess was and get instant feedback.</em><br>
-    <img src="img/feedback_after_each_question.png" alt="Feedback After Each Question" style="max-width:500px; width:100%; margin:auto;" />
+        <img src="img/feedback_after_each_question.png" alt="Feedback After Each Question" style="max-width:600px; width:100%; margin:auto;" />
 </div>
 
 ### Result Page
 <div align="center">
     <em>Review your final score and see your performance.</em><br>
-    <img src="img/result_page.png" alt="Result Page" style="max-width:500px; width:100%; margin:auto;" />
+        <img src="img/result_page.png" alt="Result Page" style="max-width:600px; width:100%; margin:auto;" />
 </div>
 
 
