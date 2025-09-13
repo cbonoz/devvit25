@@ -4,10 +4,7 @@
 
 Everyone wants to go viral online — do you know what separates a viral post from one that gets ignored? ViralityTest was inspired by the idea that you can train your intuition for what makes content blow up. By challenging yourself to guess the upvotes of real Reddit posts, you'll learn to spot the patterns and ingredients of viral success.
 
-Built as a submission to the [Fun and Games with Devvit hackathon](https://redditfunandgames.devpost.com/).enter'>
-    <img src="https://i.ibb.co/fVNMnMLL/logo.png" width=600 />
-</p>
-
+Built as a submission to the [Fun and Games with Devvit hackathon](https://redditfunandgames.devpost.com/).
 
 🔥 ViralityTest
 ---
