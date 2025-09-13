@@ -15,20 +15,25 @@ export const ScoringInfo: React.FC = () => (
       Higher upvote posts get slightly more forgiving scoring.
     </p>
     <div className="bg-orange-50 rounded p-3 mb-2 text-sm">
-      <b>Scoring Breakdown (Very Lenient!):</b><br />
-      - Within 1% of actual: 100 points<br />
-      - 1-5% error: 95-90 points<br />
-      - 5-15% error: 90-80 points<br />
-      - 15-35% error: 80-60+ points (50% tolerance for posts under 100 upvotes!)<br />
-      - 35%+ error: Very gradual decay, minimum 10 points<br />
+      <b>Smart Hybrid Scoring System:</b><br />
+      
+      <b>For tiny posts (≤10 upvotes):</b> Uses absolute difference instead of percentages<br />
+      - Off by 1: 100 points | Off by 2: 95 points | Off by 3: 85 points<br />
+      - Off by 5: 70 points | Off by 10: 50 points | Minimum: 20 points<br />
+      
+      <b>For small posts (11-50 upvotes):</b> Gentle percentage approach<br />
+      - Within 20%: 80-100 points | Within 50%: 50-80 points | Minimum: 25 points<br />
+      
+      <b>For larger posts (50+ upvotes):</b> Percentage-based with high tolerance<br />
+      - 1-5% error: 95-90 points | 5-15%: 90-80 points<br />
+      - Up to 40-70% tolerance depending on size | Minimum: 15 points<br />
       <br />
       <b>Examples:</b><br />
-      - Guess 50 on a 29 upvote post: 72% error = ~30 points (small post bonus!)<br />
+      - Guess 5 on a 2 upvote post: Off by 3 = 85 points (absolute difference!)<br />
+      - Guess 30 on a 20 upvote post: 50% error = ~50 points (gentle percentage)<br />
       - Guess 8,000 on a 10,000 upvote post: 20% error = ~75 points<br />
-      - Guess 5,000 on a 10,000 upvote post: 50% error = ~40 points<br />
       <br />
-      <b>Visual Feedback:</b> You'll see a colored bar showing your percentage accuracy.<br />
-      <span className="text-xs text-gray-500">Much more forgiving - especially for smaller posts where percentage errors look worse!</span>
+      <span className="text-xs text-gray-500">The system automatically picks the fairest scoring method based on post size!</span>
     </div>
     <p className="text-gray-700">
       <b>Why?</b> This system rewards intuition for scale, not just raw numbers. Try to get as close as possible on the log scale!

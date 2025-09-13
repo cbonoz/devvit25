@@ -80,7 +80,7 @@ export const FinalScore: React.FC<FinalScoreProps> = ({ score, guesses, subreddi
     feedback = 'Not bad! You have a decent Reddit intuition.';
     emoji = '👍';
   } else if (percent > 0.3) {
-    feedback = 'Keep practicing! You can get even better. 400+ is a great score.';
+    feedback = 'Keep practicing! You can get even better. Getting to 400+ would be a great score.';
     emoji = '💡';
   } else {
     feedback = 'Give it another shot! Virality is tricky.';

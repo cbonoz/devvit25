@@ -42,32 +42,47 @@ export function getLogScore(actual: number, guess: number) {
   const maxPoints = 100;
   if (actual <= 0 || guess <= 0) return 0;
   
-  // Calculate percentage error for more intuitive scoring
+  // Calculate both percentage error and absolute difference
   const ratio = guess / actual;
   const percentError = Math.abs(1 - ratio);
+  const absoluteDiff = Math.abs(guess - actual);
   
-  // Much more lenient tolerance, especially for smaller numbers
-  const logActual = Math.log10(actual);
-  let baseTolerance = 0.35; // 35% base tolerance (much more lenient)
-  
-  // Extra leniency for smaller numbers where percentage errors look worse
-  if (actual < 100) {
-    baseTolerance = 0.50; // 50% tolerance for posts under 100 upvotes
-  } else if (actual < 1000) {
-    baseTolerance = 0.40; // 40% tolerance for posts under 1000 upvotes
+  // For very small numbers, use a hybrid approach that considers absolute difference
+  // This prevents huge percentage penalties when the actual numbers are tiny
+  if (actual <= 10) {
+    // For posts with 10 or fewer upvotes, use absolute difference primarily
+    if (absoluteDiff <= 1) return 100; // Off by 1 = perfect for tiny numbers
+    if (absoluteDiff <= 2) return 95;  // Off by 2 = excellent  
+    if (absoluteDiff <= 3) return 85;  // Off by 3 = very good
+    if (absoluteDiff <= 5) return 70;  // Off by 5 = good
+    if (absoluteDiff <= 10) return 50; // Off by 10 = decent
+    return Math.max(20, 50 - absoluteDiff); // Gentle decline, min 20 points
   }
   
-  const magnitudeBonus = Math.min(0.20, logActual * 0.04); // Up to 20% bonus for high-upvote posts
+  // For slightly larger numbers (11-50), use a gentler percentage approach
+  if (actual <= 50) {
+    const adjustedError = Math.min(percentError, absoluteDiff / actual * 2); // Cap the penalty
+    if (adjustedError <= 0.20) return 100 - Math.round(adjustedError * 100); // 80-100 points for reasonable guesses
+    if (adjustedError <= 0.50) return Math.round(80 - adjustedError * 60); // 50-80 points 
+    return Math.max(25, Math.round(50 - adjustedError * 30)); // 25+ points minimum
+  }
+  
+  // For larger numbers, use the existing percentage-based system but more lenient
+  const logActual = Math.log10(actual);
+  let baseTolerance = 0.40; // 40% base tolerance
+  if (actual < 1000) baseTolerance = 0.50; // 50% for under 1000
+  
+  const magnitudeBonus = Math.min(0.20, logActual * 0.04);
   const tolerance = baseTolerance + magnitudeBonus;
   
-  // Much more generous scoring curve with more tiers
+  // Generous scoring curve for larger numbers
   if (percentError <= 0.01) return 100; // Within 1% = perfect
   if (percentError <= 0.05) return Math.round(95 - (percentError - 0.01) * 125); // 1-5% = 95-90 points
   if (percentError <= 0.15) return Math.round(90 - (percentError - 0.05) * 100); // 5-15% = 90-80 points
-  if (percentError <= tolerance) return Math.round(80 - (percentError - 0.15) * 100); // 15%-tolerance = 80-60+ points
+  if (percentError <= tolerance) return Math.round(80 - (percentError - 0.15) * 60); // 15%-tolerance = 80-60+ points
   
   // Very gradual decay for larger errors
   const scaledError = Math.max(0, (percentError - tolerance) / tolerance);
-  const points = Math.round(60 * Math.exp(-scaledError * 0.8)); // Much gentler decay (was 1.5, now 0.8)
-  return Math.max(10, points); // Minimum 10 points for trying (was 5)
+  const points = Math.round(60 * Math.exp(-scaledError * 0.6)); // Even gentler decay
+  return Math.max(15, points); // Minimum 15 points for trying
 }
