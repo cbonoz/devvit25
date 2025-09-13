@@ -1,15 +1,11 @@
-![ViralityTest Logo](https://i.ibb.co/fVNMnMLL/logo.png)
+![ViralityTest Logo](ht## Potential future work
+- **Enhanced Features**: Leaderboards, multiplayer challenges, and AI-powered hints to make the experience more competitive and engaging
+- **Advanced Analytics**: Deeper insights into what makes posts go viral, including pattern recognition and virality prediction tools
+- **Community Features**: User profiles, personal stats tracking, and social sharing capabilities to build a community around viral content prediction
 
 # 🔥 ViralityTest
 
-Everyone wants to go viral online — do you know what separates a viral post from one that gets ignored? ViralityTest was inspired by the idea that you can train your intuition for what makes content blow up. By challenging yourself to guess the upvotes of real Reddit posts, you'll learn to spot the patterns and ingredients of viral success.
-
-Built as a submission to the [Fun and Games with Devvit hackathon](https://redditfunandgames.devpost.com/).
-
-🔥 ViralityTest
----
-
-Everyone wants to go viral online— do you know what separates a viral post from one that gets ignored? ViralityTest was inspired by the idea that you can train your intuition for what makes content blow up. By challenging yourself to guess the upvotes of real Reddit posts, you’ll learn to spot the patterns and ingredients of viral success.
+Everyone wants to go viral online — do you know what separates a viral post from one that gets ignored? ViralityTest was inspired by the idea that you can train your intuition for what makes content blow up. By challenging yourself to guess the upvotes of real Reddit posts, you’ll learn to spot the patterns and ingredients of viral success.
 
 Built as a submission to the <a href="https://redditfunandgames.devpost.com/">Fun and Games with Devvit hackathon</a>.
 
