@@ -1,7 +1,4 @@
-![ViralityTest Logo](ht## Potential future work
-- **Enhanced Features**: Leaderboards, multiplayer challenges, and AI-powered hints to make the experience more competitive and engaging
-- **Advanced Analytics**: Deeper insights into what makes posts go viral, including pattern recognition and virality prediction tools
-- **Community Features**: User profiles, personal stats tracking, and social sharing capabilities to build a community around viral content prediction
+![ViralityTest Logo](https://i.ibb.co/fVNMnMLL/logo.png)
 
 # 🔥 ViralityTest
 
@@ -25,7 +22,9 @@ We’re proud of creating a game that’s both fun and easy to plan. The app tea
 We learned a lot about what makes content go viral—and how hard it is to predict! Building the scoring system taught us about power-law distributions and the psychology of guessing. We also deepened our skills in React, TypeScript, and API integration.
 
 ## Potential future work
-We’d love to add more features: leaderboards, multiplayer challenges, deeper analytics on what makes posts go viral, and maybe even AI-powered hints. Expanding to other platforms and social networks could make ViralityTest even more useful for aspiring viral creators.
+- **Enhanced Features**: Leaderboards, multiplayer challenges, and AI-powered hints to make the experience more competitive and engaging
+- **Advanced Analytics**: Deeper insights into what makes posts go viral, including pattern recognition and virality prediction tools
+- **Community Features**: User profiles, personal stats tracking, and social sharing capabilities to build a community around viral content predictions
 
 
 Play it here (public app link): https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest
