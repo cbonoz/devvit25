@@ -31,6 +31,8 @@ Play it here (public app link): https://www.reddit.com/r/viralitytest_dev/?playt
 
 Developer app page: https://developers.reddit.com/apps/viralitytest
 
+Demo video: https://youtu.be/Dx8eSza9B0Q
+
 ## Screenshots
 
 ### Home Page
