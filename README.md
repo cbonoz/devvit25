@@ -6,6 +6,10 @@ Everyone wants to go viral online — do you know what separates a viral post fr
 
 Built as a submission to the <a href="https://redditfunandgames.devpost.com/">Fun and Games with Devvit hackathon</a>.
 
+See the demo video here: https://youtu.be/Dx8eSza9B0Q
+
+Try it out live on reddit: https://www.reddit.com/r/viralitytest_dev/?playtest=viralitytest 
+
 ## What it does
 ViralityTest is a quiz game that pulls live posts from Reddit and asks you to guess how many upvotes each received. You’ll get instant feedback, see how close your guess was, and build your skills at identifying what makes a post go viral. The better you get, the more you’ll understand the secrets of viral content—and you can use those insights to make your own posts stand out.
 
